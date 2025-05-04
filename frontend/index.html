@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Feedback Box</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📬 Feedback Box</h1>
+    <textarea id="message" placeholder="Write your feedback here..."></textarea>
+    <button onclick="submitFeedback()">Submit</button>
+    <p id="responseMsg"></p>
+  </div>
+
+  <script>
+    async function submitFeedback() {
+      const message = document.getElementById("message").value;
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message })
+      });
+
+      const result = await response.json();
+      document.getElementById("responseMsg").innerText = result.message || result.error;
+    }
+  </script>
+</body>
+</html>
